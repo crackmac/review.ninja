@@ -119,6 +119,25 @@ module.exports = function(req, res) {
             reopened: function() {
                 // udpate the status
                 // send email if pull req is open and unmerged
+
+                // (logic belongs in notification service)
+                var pullId = pullRequest.byLabels(req.args.issue.labels);
+                if(pullId) {
+                    getPull(req.args.repository.owner.login, req.args.repository.name, pullId, user.token, function(err, pullRequest) {
+                        if(!err) {
+                            console.log(pullRequest);
+                            status.update({
+                                user: req.args.repository.owner.login,
+                                repo: req.args.repository.name,
+                                repo_uuid: req.args.repository.id,
+                                sha: pullRequest.head.sha,
+                                number: pullRequest.number,
+                                token: user.token
+                            });
+                            notification.sendmail('new_issue', req.args.repository.owner.login, req.args.repository.name, req.args.repository.id, user.token, pull_request_number, args);
+                        }
+                    });
+                }
             }
         };
 
