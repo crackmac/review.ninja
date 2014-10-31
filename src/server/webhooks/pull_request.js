@@ -93,7 +93,7 @@ module.exports = function(req, res) {
                 // close the milestone
                 milestone.close({
                     user: req.args.repository.owner.login,
-                    name: req.args.repository.name,
+                    repo: req.args.repository.name,
                     repo_uuid: req.args.repository.id,
                     number: req.args.number,
                     token: user.token

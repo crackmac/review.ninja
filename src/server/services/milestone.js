@@ -59,7 +59,7 @@ module.exports = {
         });
     },
 
-    close: function(args, token) {
+    close: function(args) {
         Milestone.findOne({
             pull: args.number,
             repo: args.repo_uuid

@@ -76,12 +76,12 @@ describe('pull_request:closed', function(done) {
         });
 
         var milestoneStub = sinon.stub(milestone, 'close',
-            function(user, repo, repo_uuid, number, token) {
-                assert.equal(user, 'reviewninja');
-                assert.equal(repo, 'foo');
-                assert.equal(repo_uuid, 23588185);
-                assert.equal(number, 42);
-                assert.equal(token, 'abcdefg');
+            function(args) {
+                assert.equal(args.user, 'reviewninja');
+                assert.equal(args.repo, 'foo');
+                assert.equal(args.repo_uuid, 23588185);
+                assert.equal(args.number, 42);
+                assert.equal(args.token, 'abcdefg');
             });
 
         pull_request(req, {

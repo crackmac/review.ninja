@@ -36,8 +36,7 @@ describe('milestone:get', function(done) {
 
             done(null, true);
         });
-
-        milestone.get('user', 'repo', 1, 2, 'token', function(err, milestone) {
+        milestone.get({user: 'user', repo: 'repo', repo_uuid: 1, number: 2, token: 'token'}, function(err, milestone) {
             assert.deepEqual(milestone, {
                 repo: 1,
                 pull: 2,
@@ -101,7 +100,7 @@ describe('milestone:get', function(done) {
             });
         });
 
-        milestone.get('user', 'repo', 1, 2, 'token', function(err, milestone) {
+        milestone.get({user: 'user', repo: 'repo', repo_uuid: 1, number: 2, token: 'token'}, function(err, milestone) {
             assert.deepEqual(milestone, {
                 repo: 1,
                 pull: 2,
@@ -164,7 +163,7 @@ describe('milestone:get', function(done) {
             });
         });
 
-        milestone.get('user', 'repo', 1, 2, 'token', function(err, milestone) {
+        milestone.get({user: 'user', repo: 'repo', repo_uuid: 1, number: 2, token: 'token'}, function(err, milestone) {
             assert.deepEqual(milestone, {
                 repo: 1,
                 pull: 2,
@@ -189,8 +188,7 @@ describe('milestone:close', function(done) {
             assert.equal(args.pull, 2);
             done(null, null);
         });
-
-        milestone.close('user', 'repo', 1, 2, 'token');
+        milestone.close({user: 'user', repo: 'repo', repo_uuid: 1, number: 2, token: 'token'});
 
         milestoneStub.restore();
         done();
@@ -219,7 +217,7 @@ describe('milestone:close', function(done) {
             });
         });
 
-        milestone.close('user', 'repo', 1, 2, 'token');
+        milestone.close({user: 'user', repo: 'repo', repo_uuid: 1, number: 2, token: 'token'});
 
         milestoneStub.restore();
         githubStub.restore();
