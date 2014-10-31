@@ -2,6 +2,7 @@
 var url = require('../services/url');
 var github = require('../services/github');
 var milestone = require('../services/milestone');
+var merge = require('merge');
 
 module.exports = {
 
@@ -65,8 +66,8 @@ module.exports = {
         body += '|------|--------------|-----------|\r\n';
         body += '|' + req.args.sha + '|' + fileReference + '|' + ninjaReference + '|';
 
-        milestone.get(req.args.user, req.args.repo, req.args.repo_uuid, req.args.number, req.user.token,
-            function(err, milestone) {
+        var args = merge(req.args, {token: req.user.token});
+        milestone.get(args, function(err, milestone) {
                 if(err) {
                     return done(err);
                 }

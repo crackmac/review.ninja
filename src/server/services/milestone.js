@@ -6,10 +6,10 @@ var github = require('../services/github');
 
 module.exports = {
 
-    get: function(user, repo, repo_uuid, number, token, done) {
+    get: function(args, done) {
         Milestone.findOne({
-            pull: number,
-            repo: repo_uuid
+            pull: args.number,
+            repo: args.repo_uuid
         }, function(err, milestone) {
 
             if(err) {
@@ -21,11 +21,11 @@ module.exports = {
                 obj: 'issues',
                 fun: 'getMilestone',
                 arg: {
-                    user: user,
-                    repo: repo,
+                    user: args.user,
+                    repo: args.repo,
                     number: milestone ? milestone.number : null
                 },
-                token: token
+                token: args.token
             }, function(err) {
                 if(!err) {
                     return done(err, milestone);
@@ -36,19 +36,19 @@ module.exports = {
                     obj: 'issues',
                     fun: 'createMilestone',
                     arg: {
-                        user: user,
-                        repo: repo,
-                        title: 'Pull Request #' + number
+                        user: args.user,
+                        repo: args.repo,
+                        title: 'Pull Request #' + args.number
                     },
-                    token: token
+                    token: args.token
                 }, function(err, milestone) {
                     if(err) {
                         return done(err);
                     }
 
                     Milestone.findOneAndUpdate({
-                        pull: number,
-                        repo: repo_uuid
+                        pull: args.number,
+                        repo: args.repo_uuid
                     }, {
                         number: milestone.number
                     }, {
@@ -59,22 +59,22 @@ module.exports = {
         });
     },
 
-    close: function(user, repo, repo_uuid, number, token) {
+    close: function(args, token) {
         Milestone.findOne({
-            pull: number,
-            repo: repo_uuid
+            pull: args.number,
+            repo: args.repo_uuid
         }, function(err, milestone) {
             if(!err && milestone) {
                 github.call({
                     obj: 'issues',
                     fun: 'updateMilestone',
                     arg: {
-                        user: user,
-                        repo: repo,
+                        user: args.user,
+                        repo: args.repo,
                         number: milestone.number,
                         state: 'closed'
                     },
-                    token: token
+                    token: args.token
                 });
             }
         });

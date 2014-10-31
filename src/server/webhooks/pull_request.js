@@ -91,13 +91,13 @@ module.exports = function(req, res) {
                 }
 
                 // close the milestone
-                milestone.close(
-                    req.args.repository.owner.login,
-                    req.args.repository.name,
-                    req.args.repository.id,
-                    req.args.number,
-                    user.token
-                );
+                milestone.close({
+                    user: req.args.repository.owner.login,
+                    name: req.args.repository.name,
+                    repo_uuid: req.args.repository.id,
+                    number: req.args.number,
+                    token: user.token
+                });
             },
             reopened: function() {
                 // a pull request you have reviewed has a been reopened
